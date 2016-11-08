@@ -1,16 +1,16 @@
 #!/bin/bash
-# $Id: cpumon,v 1.9 2016/11/08 13:27:05 fulford Exp fulford $
+# $Id: cpumon,v 1.10 2016/11/08 13:28:34 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/cpumon,v $
-# $Revision: 1.9 $
-# $Date: 2016/11/08 13:27:05 $
+# $Revision: 1.10 $
+# $Date: 2016/11/08 13:28:34 $
 # Author C W Fulford.
 # Copyright 2013,2014 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
 # For assistance contact fulford@fulford.net 0709 229 5385
 ########################################################################
 cmd=`basename $0`
-ver=`echo "$Revision: 1.9 $" |awk '{print $2}'`
-date=`echo "$Date: 2016/11/08 13:27:05 $"|awk '{print $2,$3}'`
+ver=`echo "$Revision: 1.10 $" |awk '{print $2}'`
+date=`echo "$Date: 2016/11/08 13:28:34 $"|awk '{print $2,$3}'`
 syntax="$cmd [-c <config_file>] [-d] [-l] [-p #] ] [-v] <host_id>|-V"
 tmp=/tmp/cpumon$$
 while [ $#  -gt 0 ];do
@@ -41,7 +41,7 @@ _end () {
 trap "_end" 1 15
 
 ssh $host -p $port "/usr/local/bin/sudo  sar -u " | 
-	awk 'NR >= 5 && $1 !~ /Average/ && $5 <= $cpumin' >$tmp
+	awk 'NR >= 5 && $1 !~ /Average/ && $5 <= '$cpumin >$tmp
 	[ `wc -l<$tmp` -gt 0 ] &&{
 		 mailx -s "WARNING - cpu constraint on $hostid" $rcpts <$tmp
 	}
